@@ -16,11 +16,10 @@ export class App extends Component {
   };
 
   render() {
-    const { name, loading } = this.state;
+    const { name } = this.state;
     return (
       <div>
         <Searchbar onSubmit={this.handleFormSubmit} />
-        {loading && <p>Loading...</p>}
         <ImageGallery imageName={name} />
         
         <ToastContainer autoClose={2000} />
