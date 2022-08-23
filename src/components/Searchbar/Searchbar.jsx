@@ -6,6 +6,7 @@ import css from './Searchbar.module.css';
 export class Searchbar extends Component {
   state = {
     name: '',
+    page: 1,
   };
 
   handleNameChange = e => {
@@ -17,8 +18,9 @@ export class Searchbar extends Component {
     if (this.state.name.trim() === '') {
       return toast.error("The field can't be empty");
     }
-    this.props.onSubmit(this.state.name);
+    this.props.onSubmit(this.state.name);    
     this.reset();
+    this.setState({page: 1, name: e.target.elements.name.value} )
   };
 
   reset = () => {

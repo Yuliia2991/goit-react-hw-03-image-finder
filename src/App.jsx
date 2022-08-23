@@ -4,9 +4,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Searchbar } from 'components/Searchbar/Searchbar';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 
+// import css from './App.css';
+
 export class App extends Component {
   state = {
-    name: '',
+    name: '',      
   };
 
   handleFormSubmit = name => {
@@ -14,11 +16,12 @@ export class App extends Component {
   };
 
   render() {
-    const { name } = this.state;
+    const { name, page, images } = this.state;
     return (
       <div>
         <Searchbar onSubmit={this.handleFormSubmit} />
-        <ImageGallery imageName={name} />        
+        <ImageGallery imageName={name} page={page} images={images} />
+        
         <ToastContainer autoClose={1500} />
       </div>
     );
