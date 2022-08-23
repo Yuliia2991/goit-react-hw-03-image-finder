@@ -42,11 +42,18 @@ export class ImageGallery extends Component {
     }
     if (status === 'resolved') {
       return (
-        <ul className={css.ImageGallery}>
-          {image.hits.map(({ id, webformatURL, tags }) => (
-            <ImageGalleryItem key={id} url={webformatURL} tags={tags} />
-          ))}
-        </ul>
+        <>
+          <ul className={css.ImageGallery}>
+            {image.hits.map(({ id, webformatURL, tags, largeImageURL }) => (
+              <ImageGalleryItem
+                key={id}
+                url={webformatURL}
+                tags={tags}
+                largeImage={largeImageURL}
+              />
+            ))}
+          </ul>
+        </>
       );
     }
   }
