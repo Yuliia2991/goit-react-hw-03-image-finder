@@ -5,7 +5,7 @@ import { Searchbar } from 'components/Searchbar/Searchbar';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { Button } from 'components/Button/Button';
 import { Loader } from 'components/Loader/Loader';
-// import { fetchImages } from '../services/api';
+import { fetchImages } from 'components/services/api';
 
 export class App extends Component {
   state = {
@@ -26,12 +26,7 @@ export class App extends Component {
     if (prevQuery !== nextQuery || prevPage !== nextPage) {
       this.setState({ status: 'pending' });
 
-      const BASE_URL = 'https://pixabay.com/api/';
-      const API_KEY = '27845155-2bfc883cc65018053cc1f72dd';
-      fetch(
-        `${BASE_URL}?key=${API_KEY}&q=${nextQuery}&page=${nextPage}&image_type=photo&orientation=horizontal&per_page=12`
-      )
-        .then(response => response.json())
+        fetchImages(nextQuery, nextPage)     
         .then(data => {
           if (data.hits.length > 0) {
             this.setState(prevState => ({
@@ -53,7 +48,8 @@ export class App extends Component {
     }
   };
 
-  loadMore = () => {
+  loadMore = (e) => {
+    e.preventDefault();
     this.setState(prevState => ({
       page: prevState.page + 1,
     }));
@@ -62,7 +58,7 @@ export class App extends Component {
   render() {
     const { page, error, status, images, totalImages } = this.state;
     return (
-      <div>
+      <>
         <Searchbar onSubmit={this.handleFormSubmit} />
         {status === 'resolved' && <ImageGallery images={images} />}
 
@@ -75,7 +71,7 @@ export class App extends Component {
           page < totalImages / 12 && <Button onClick={this.loadMore} />}
 
         <ToastContainer autoClose={1500} />
-      </div>
+      </>
     );
   }
 }
