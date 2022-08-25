@@ -24,34 +24,37 @@ export class App extends Component {
     const nextPage = this.state.page;
 
     if (prevQuery !== nextQuery || prevPage !== nextPage) {
-      this.setState({ status: 'pending' });
 
+      this.setState({ status: 'pending' });
+        
         fetchImages(nextQuery, nextPage)     
         .then(data => {
           if (data.hits.length > 0) {
+ 
             this.setState(prevState => ({
               images: [...prevState.images, ...data.hits],
               status: 'resolved',
               totalImages: data.totalHits,
             }));
+                          
           } else {
             toast.error(`${nextQuery} not found`);
             this.setState({ status: 'idle' });
           }
-        });
+        })
+        
     }
   }
 
   handleFormSubmit = name => {
     if (name !== this.state.query) {
-      this.setState({ query: name, page: 1, images: [], status: 'idle' });
+      this.setState({ query: name, page: 1, images: [],  });
     }
   };
 
-  loadMore = (e) => {
-    e.preventDefault();
+  loadMore = () => {
     this.setState(prevState => ({
-      page: prevState.page + 1,
+      page: prevState.page + 1, 
     }));
   };
 
@@ -60,8 +63,9 @@ export class App extends Component {
     return (
       <>
         <Searchbar onSubmit={this.handleFormSubmit} />
-        {status === 'resolved' && <ImageGallery images={images} />}
-
+        
+        {(status === 'resolved' || images.length) > 0 && < ImageGallery images={images} />}
+      
         {status === 'pending' && <Loader />}
 
         {status === 'rejected' && <p>{error.message}</p>}
